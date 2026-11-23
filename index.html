@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Avisa't · Ayudas para tu negocio, cada lunes</title>
+<meta name="description" content="Te avisamos cada lunes de las ayudas públicas que puede pedir tu negocio en La Ribera. Explicadas en tres líneas. Gratis.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gabarito:wght@500;700;800&family=Figtree:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  /* VOZ: vecina, directa, sin jerga.
+     IDEA: el aviso que te deja el vecino: una naranja de La Ribera que hace de radar.
+     IMAGEN: naranja cortada con gajos como anillos y una barrida que encuentra una ayuda.
+     COLOR/TIPO: verde hoja, naranja, blanco; Gabarito para titulares, Figtree para leer.
+     MAQUETA: portada con alta en una columna, pasos, precios, preguntas. */
+  :root{
+    color-scheme:light;
+    --hoja:#1E4A38;      /* verde hoja de naranjo */
+    --hoja-claro:#E7F0EB;
+    --taronja:#FF8A1E;   /* naranja de La Ribera */
+    --taronja-osc:#C85F00;
+    --tinta:#132019;
+    --gris:#5B6B63;
+    --blanco:#FFFFFF;
+    --linea:#D7E3DC;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{margin:0;background:var(--blanco);color:var(--tinta);font-family:"Figtree",system-ui,sans-serif;font-size:18px;line-height:1.5}
+  a{color:var(--hoja)}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 22px}
+  :focus-visible{outline:3px solid var(--taronja);outline-offset:3px;border-radius:6px}
+
+  /* Cabecera */
+  header{display:flex;align-items:center;justify-content:space-between;padding:18px 0}
+  .marca{font-family:"Gabarito",system-ui,sans-serif;display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--tinta);font-weight:800;font-size:24px;letter-spacing:-.02em}
+  .marca svg{width:34px;height:34px}
+  .cab-link{font-weight:500;font-size:16px;text-decoration:none;color:var(--hoja);border-bottom:2px solid var(--taronja);padding-bottom:2px}
+
+  .aviso-estado{background:var(--hoja);color:#fff;text-align:center;padding:14px 18px;font-weight:500;font-size:17px}
+  /* Portada */
+  .hero{display:grid;grid-template-columns:1.1fr .9fr;gap:48px;align-items:center;padding:36px 0 64px}
+  h1{text-wrap:balance;font-family:"Gabarito",system-ui,sans-serif;font-size:clamp(38px,5.6vw,64px);line-height:1.02;letter-spacing:-.035em;font-weight:800;margin:0 0 20px}
+  .sub{font-size:20px;color:var(--gris);max-width:30ch;margin:0 0 28px}
+  form{display:grid;gap:12px;max-width:460px}
+  .fila{display:grid;grid-template-columns:1fr auto;gap:10px}
+  input[type=email],select{font:inherit;font-size:17px;padding:14px 16px;border:2px solid var(--linea);border-radius:12px;background:#fff;color:var(--tinta);width:100%}
+  input[type=email]:focus,select:focus{border-color:var(--hoja);outline:none}
+  button{font-family:"Gabarito",system-ui,sans-serif;font:inherit;font-weight:700;font-size:17px;padding:14px 22px;border:0;border-radius:12px;background:var(--taronja);color:var(--tinta);cursor:pointer;white-space:nowrap}
+  button:hover{background:#ff9a3d}
+  button:disabled{opacity:.6;cursor:wait}
+  .consent{display:flex;gap:10px;align-items:flex-start;font-size:14px;color:var(--gris);line-height:1.4}
+  .consent input{margin-top:3px;width:18px;height:18px;accent-color:var(--hoja);flex:none}
+  .nota{font-size:14px;color:var(--gris);margin:4px 0 0}
+  .estado{font-size:16px;font-weight:500;min-height:1.5em;margin:0}
+  .estado.ok{color:var(--hoja)}
+  .estado.err{color:#B3261E}
+
+  /* Naranja-radar */
+  .visual{position:relative;display:grid;place-items:center}
+  .radar{width:min(100%,420px);aspect-ratio:1}
+  .barrido{transform-origin:200px 200px;animation:barre 2.6s cubic-bezier(.3,.1,.2,1) .3s 1 both}
+  @keyframes barre{from{transform:rotate(-360deg);opacity:0}15%{opacity:1}to{transform:rotate(0deg);opacity:1}}
+  .punto{opacity:0;animation:aparece .4s ease-out 2.4s forwards}
+  @keyframes aparece{to{opacity:1}}
+  .aviso{position:absolute;right:-6px;bottom:-14px;width:min(88%,340px);background:#fff;border:2px solid var(--tinta);border-radius:18px;padding:16px 18px;box-shadow:6px 6px 0 var(--hoja);opacity:0;transform:translateY(8px);animation:sube .5s ease-out 2.6s forwards}
+  @keyframes sube{to{opacity:1;transform:none}}
+  .aviso .cuando{font-size:13px;color:var(--gris);margin:0 0 6px}
+  .aviso .titulo{font-family:"Gabarito",system-ui,sans-serif;font-weight:700;font-size:18px;line-height:1.25;margin:0 0 8px}
+  .aviso .datos{font-size:15px;margin:0;color:var(--tinta)}
+  .aviso .datos b{color:var(--taronja-osc)}
+  @media (prefers-reduced-motion:reduce){.barrido,.punto,.aviso{animation:none;opacity:1;transform:none}}
+
+  /* Bloques */
+  section{padding:64px 0;border-top:1px solid var(--linea)}
+  h2{text-wrap:balance;font-family:"Gabarito",system-ui,sans-serif;font-size:clamp(30px,4vw,44px);line-height:1.08;letter-spacing:-.03em;font-weight:800;margin:0 0 14px;max-width:22ch}
+  .intro{color:var(--gris);font-size:19px;max-width:52ch;margin:0 0 36px}
+
+  .pasos{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;list-style:none;padding:0;margin:0;counter-reset:p}
+  .pasos li{counter-increment:p}
+  .pasos li::before{content:counter(p);display:grid;place-items:center;width:44px;height:44px;border-radius:50%;background:var(--hoja);color:#fff;font-weight:800;font-size:20px;margin-bottom:14px}
+  .pasos h3{font-family:"Gabarito",system-ui,sans-serif;font-size:21px;margin:0 0 6px;letter-spacing:-.01em}
+  .pasos p{margin:0;color:var(--gris);font-size:17px}
+
+  .dato{margin:44px 0 0;padding:26px 28px;background:var(--hoja-claro);border-radius:20px;display:flex;gap:22px;align-items:center}
+  .dato strong{font-family:"Gabarito",system-ui,sans-serif;font-size:56px;line-height:1;font-weight:800;color:var(--hoja);letter-spacing:-.04em;flex:none}
+  .dato p{margin:0;font-size:18px;max-width:46ch}
+
+  .mv{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin:0 0 28px}
+  .mv>div{background:var(--hoja);color:#fff;border-radius:20px;padding:26px 26px 28px}
+  .mv h3{font-family:"Gabarito",system-ui,sans-serif;margin:0 0 8px;font-size:18px;color:var(--taronja)}
+  .mv p{margin:0;font-size:22px;line-height:1.3;font-family:"Gabarito",system-ui,sans-serif;font-weight:700;letter-spacing:-.01em;text-wrap:balance}
+  .valores{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 28px;max-width:860px}
+  .valores li{font-size:17px;color:var(--gris);padding-left:22px;position:relative}
+  .valores li::before{content:"";position:absolute;left:0;top:.55em;width:10px;height:10px;border-radius:50%;background:var(--taronja)}
+  .valores b{color:var(--tinta)}
+  /* Precios */
+  .planes{display:grid;grid-template-columns:1fr 1.15fr 1fr;gap:18px;align-items:stretch}
+  .plan{border:2px solid var(--linea);border-radius:20px;padding:26px 24px;display:flex;flex-direction:column;gap:10px}
+  .plan.destacado{border-color:var(--tinta);box-shadow:6px 6px 0 var(--taronja)}
+  .plan h3{font-family:"Gabarito",system-ui,sans-serif;margin:0;font-size:22px;letter-spacing:-.01em}
+  .precio{font-family:"Gabarito",system-ui,sans-serif;font-size:40px;font-weight:800;letter-spacing:-.03em;line-height:1.1;margin:4px 0 0}
+  .precio small{font-size:16px;font-weight:500;color:var(--gris);letter-spacing:0}
+  .plan ul{margin:6px 0 10px;padding-left:20px;color:var(--tinta);font-size:16px}
+  .plan li{margin:4px 0}
+  .plan .acc{margin-top:auto;display:block;text-align:center;font-weight:700;text-decoration:none;padding:13px 16px;border-radius:12px;border:2px solid var(--tinta);color:var(--tinta)}
+  .plan.destacado .acc{background:var(--taronja);border-color:var(--taronja)}
+  .plan .acc:hover{background:var(--hoja-claro)}
+  .plan.destacado .acc:hover{background:#ff9a3d}
+  .iva{font-size:14px;color:var(--gris);margin:16px 0 0}
+
+  /* Preguntas */
+  details{border-bottom:1px solid var(--linea);padding:18px 0;max-width:720px}
+  summary{font-family:"Gabarito",system-ui,sans-serif;font-weight:700;font-size:19px;cursor:pointer;list-style:none;display:flex;justify-content:space-between;gap:16px}
+  summary::-webkit-details-marker{display:none}
+  summary::after{content:"+";font-size:26px;line-height:1;color:var(--taronja-osc);transition:transform .2s}
+  details[open] summary::after{transform:rotate(45deg)}
+  details p{margin:10px 0 0;color:var(--gris);max-width:62ch}
+
+  footer{border-top:1px solid var(--linea);padding:32px 0 48px;font-size:14px;color:var(--gris)}
+  footer p{margin:4px 0;max-width:80ch}
+  footer details.legal{border:0;padding:8px 0 0;max-width:80ch}
+  footer details.legal summary{font-family:"Figtree",system-ui,sans-serif;font-weight:500;font-size:14px;color:var(--gris);text-decoration:underline}
+  footer details.legal summary::after{content:""}
+  footer details.legal p{font-size:13px}
+
+  @media (max-width:860px){
+    .hero{grid-template-columns:1fr;gap:56px;padding-top:12px}
+    .visual{order:2;padding-bottom:30px}
+    .pasos,.planes,.mv,.valores{grid-template-columns:1fr}
+    .dato{flex-direction:column;align-items:flex-start;gap:10px}
+  }
+  @media (max-width:480px){
+    body{font-size:17px}
+    .fila{grid-template-columns:1fr}
+    .aviso{right:0}
+  }
+</style>
+</head>
+<body>
+<div id="aviso-estado" class="aviso-estado" role="status" hidden></div>
+<div class="wrap">
+  <header>
+    <a class="marca" href="#" aria-label="Avisa't, inicio">
+      <svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="18" fill="#FF8A1E"/><circle cx="20" cy="20" r="13" fill="none" stroke="#fff" stroke-width="2" opacity=".7"/><circle cx="20" cy="20" r="7" fill="none" stroke="#fff" stroke-width="2" opacity=".7"/><path d="M20 20 L20 2 A18 18 0 0 1 35.6 11 Z" fill="#1E4A38"/><circle cx="27" cy="13" r="2.6" fill="#fff"/></svg>
+      Avisa't
+    </a>
+    <a class="cab-link" href="#precios">Precios</a>
+  </header>
+
+  <main>
+    <div class="hero">
+      <div>
+        <h1>Hay dinero público para tu negocio. Te avisamos cada lunes.</h1>
+        <p class="sub">Ayudas y concursos para comercios de La Ribera, explicados en tres líneas. Sin buscar, sin leer el BOE.</p>
+
+        <form id="alta" novalidate>
+          <label class="sr" for="email" style="position:absolute;left:-9999px">Tu correo</label>
+          <div class="fila">
+            <input id="email" name="email" type="email" inputmode="email" autocomplete="email" placeholder="tu@correo.com" required>
+            <button id="enviar" type="submit">Avisadme gratis</button>
+          </div>
+          <label class="sr" for="sector" style="position:absolute;left:-9999px">Tu tipo de negocio</label>
+          <select id="sector" name="sector" required>
+            <option value="" selected disabled>¿Qué negocio tienes?</option>
+            <option>Peluquería o estética</option>
+            <option>Bar, restaurante o cafetería</option>
+            <option>Taller o venta de coches</option>
+            <option>Tienda de alimentación</option>
+            <option>Clínica, fisio u óptica</option>
+            <option>Oficina, seguros o asesoría</option>
+            <option>Otro</option>
+          </select>
+          <label class="consent"><input id="ok" type="checkbox" required><span id="texto-ok">Quiero recibir el aviso semanal de Avisa't por correo. Puedo darme de baja cuando quiera.</span></label>
+          <p class="estado" id="estado" role="status" aria-live="polite"></p>
+        </form>
+        <p class="nota">Gratis. Un correo a la semana. Baja con un clic.</p>
+      </div>
+
+      <div class="visual" aria-hidden="true">
+        <svg class="radar" viewBox="0 0 400 400">
+          <defs>
+            <radialGradient id="pulpa" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#FFB25E"/><stop offset="1" stop-color="#FF8A1E"/></radialGradient>
+            <linearGradient id="haz" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#1E4A38" stop-opacity="0"/><stop offset="1" stop-color="#1E4A38" stop-opacity=".55"/></linearGradient>
+          </defs>
+          <circle cx="200" cy="200" r="190" fill="#FF8A1E"/>
+          <circle cx="200" cy="200" r="176" fill="url(#pulpa)"/>
+          <g stroke="#FFE3C2" stroke-width="3" fill="none">
+            <circle cx="200" cy="200" r="132"/><circle cx="200" cy="200" r="88"/><circle cx="200" cy="200" r="44"/>
+            <path d="M200 24V376M24 200H376M75.5 75.5L324.5 324.5M324.5 75.5L75.5 324.5"/>
+          </g>
+          <circle cx="200" cy="200" r="10" fill="#FFE3C2"/>
+          <g class="barrido"><path d="M200 200 L200 24 A176 176 0 0 1 352.4 112 Z" fill="url(#haz)"/></g>
+          <g class="punto"><circle cx="292" cy="128" r="22" fill="#1E4A38" opacity=".18"/><circle cx="292" cy="128" r="10" fill="#1E4A38"/></g>
+          <path d="M214 14c18-14 44-12 58 0-16 10-40 12-58 0Z" fill="#1E4A38"/>
+        </svg>
+        <div class="aviso">
+          <p class="cuando">Ejemplo real · noviembre 2026</p>
+          <p class="titulo">Ayuda del IVACE para gastar menos luz en tu local</p>
+          <p class="datos">Para pymes y autónomos · Plazo hasta el <b>30 de junio de 2027</b></p>
+        </div>
+      </div>
+    </div>
+
+    <section id="como">
+      <h2>Tú atiendes tu negocio. Nosotros miramos las ayudas.</h2>
+      <p class="intro">Cada día se publican decenas de ayudas y concursos públicos. Casi ninguno es para ti, y encontrar el que sí lo es lleva horas.</p>
+      <ol class="pasos">
+        <li><h3>Lo miramos todo, cada mañana</h3><p>Revisamos las webs oficiales donde se publican todas las ayudas y concursos de España y de la Generalitat.</p></li>
+        <li><h3>Quitamos lo que no es para ti</h3><p>Fuera lo que ya tiene dueño, lo de otros sectores y lo de fuera de la comarca.</p></li>
+        <li><h3>Te lo contamos fácil, el lunes</h3><p>Qué es, cuánto dan, hasta cuándo y qué papeles piden. En tres líneas, en tu correo.</p></li>
+      </ol>
+      <div class="dato">
+        <strong>180 de 205</strong>
+        <p>ayudas publicadas en dos semanas de noviembre en la Comunitat Valenciana y el Estado ya tenían dueño. Nosotros las quitamos para que veas solo las que sí puedes pedir.</p>
+      </div>
+    </section>
+
+    <section id="nosotros">
+      <h2>Por qué existe Avisa't</h2>
+      <p class="intro">Las ayudas públicas son de todos, pero se las llevan sobre todo quienes tienen tiempo, gestor y alguien que lea el BOE. Un comercio de pueblo no tiene nada de eso.</p>
+      <div class="mv">
+        <div><h3>Misión</h3><p>Que ningún negocio de La Ribera se quede sin una ayuda por no haberse enterado a tiempo.</p></div>
+        <div><h3>Visión</h3><p>Que pedir dinero público sea igual de fácil para una peluquería de Sueca que para una gran empresa con departamento propio.</p></div>
+      </div>
+      <ul class="valores">
+        <li><b>Solo fuentes oficiales.</b> Cada aviso enlaza a la convocatoria original.</li>
+        <li><b>Corto y claro.</b> Si no cabe en tres líneas, lo explicamos mejor.</li>
+        <li><b>De la comarca.</b> Conocemos los pueblos, los negocios y su ritmo.</li>
+        <li><b>Tus datos son tuyos.</b> Tu correo sirve para el aviso y para nada más.</li>
+      </ul>
+    </section>
+
+    <section id="precios">
+      <h2>Empieza gratis. Paga solo si te sirve.</h2>
+      <p class="intro">Sin permanencia. Cancelas cuando quieras.</p>
+      <div class="planes">
+        <div class="plan">
+          <h3>Aviso semanal</h3>
+          <p class="precio">Gratis</p>
+          <ul><li>Las ayudas de tu sector, cada lunes</li><li>Explicadas en tres líneas</li></ul>
+          <a class="acc" href="#alta" onclick="document.getElementById('email').focus()">Apuntarme gratis</a>
+        </div>
+        <div class="plan destacado">
+          <h3>Radar para tu negocio</h3>
+          <p class="precio">29 € <small>al mes + IVA</small></p>
+          <ul><li>Avisos para tu negocio y tu pueblo, no solo tu sector</li><li>También concursos de ayuntamientos y Generalitat</li><li>Ficha con requisitos y plazos de cada ayuda</li><li>Resolvemos tus dudas por correo</li></ul>
+          <a class="acc" href="https://buy.stripe.com/8x200icfge3SeB66972oE01">Probar 14 días gratis</a>
+        </div>
+        <div class="plan">
+          <h3>Diagnóstico con IA</h3>
+          <p class="precio">150 € <small>+ IVA</small></p>
+          <ul><li>Una hora en tu local</li><li>Vemos qué tareas puede hacer la IA por ti, como coger el teléfono y dar citas</li><li>Se descuenta si lo implantamos</li></ul>
+          <a class="acc" href="https://buy.stripe.com/14AfZg0wycZO8cIfJH2oE00">Reservar diagnóstico</a>
+        </div>
+      </div>
+      <p class="iva">Los 14 días de prueba son gratis: puedes cancelar antes y no pagas nada.</p>
+    </section>
+
+    <section id="dudas">
+      <h2>Preguntas</h2>
+      <details><summary>¿De dónde sacáis las ayudas?</summary><p>De las fuentes oficiales: la Base de Datos Nacional de Subvenciones, donde se publican todas las ayudas públicas de España, y la Plataforma de Contratación del Sector Público, donde salen los concursos. Nada de rumores ni de terceros.</p></details>
+      <details><summary>¿Me tramitáis la ayuda?</summary><p>El aviso te dice qué es y qué piden. Si quieres que te la preparemos nosotros, te decimos el precio antes, para cada ayuda.</p></details>
+      <details><summary>¿Qué hacéis con mi correo?</summary><p>Solo lo usamos para mandarte el aviso semanal. No lo vendemos ni lo cedemos. Cada correo trae un enlace para darte de baja.</p></details>
+      <details><summary>¿Cómo os escribo?</summary><p>Responde a cualquier aviso o escribe a <b>avisatvlc@gmail.com</b>. Contestamos en un día laborable.</p></details>
+    </section>
+  </main>
+
+  <footer>
+    <p><b>Avisa't</b> · Ayudas y concursos públicos para comercios de La Ribera · <a href="mailto:avisatvlc@gmail.com">avisatvlc@gmail.com</a></p>
+    <details class="legal"><summary>Aviso legal y privacidad</summary>
+      <p>Titular del servicio: Andrea Di Mare Zamora · NIE Z1619480D · Sollana (Valencia, España) · avisatvlc@gmail.com.</p>
+      <p>Avisa't resume información pública de la Base de Datos Nacional de Subvenciones y de la Plataforma de Contratación del Sector Público. No es un organismo oficial: comprueba siempre las bases de cada ayuda antes de pedirla.</p>
+      <p>Privacidad: usamos tu correo y tu tipo de negocio solo para enviarte el aviso semanal, con tu consentimiento. No los cedemos. Puedes darte de baja en cada correo y pedir acceso, rectificación o supresión en avisatvlc@gmail.com. Puedes reclamar ante la Agencia Española de Protección de Datos (aepd.es).</p>
+    </details>
+  </footer>
+</div>
+
+<script>
+(() => {
+  const msgs = { "confirmado": "Confirmado. El próximo lunes te llega tu primer aviso.", "baja": "Te has dado de baja. No recibirás más avisos.", "enlace-no-valido": "Ese enlace no es válido. Apúntate de nuevo abajo." };
+  const e = new URLSearchParams(location.search).get("estado");
+  if (msgs[e]) { const b = document.getElementById("aviso-estado"); b.textContent = msgs[e]; b.hidden = false; }
+  const SUPABASE_URL = "https://rnxtzssiyiqfvelivads.supabase.co";
+  const form = document.getElementById("alta");
+  const estado = document.getElementById("estado");
+  const btn = document.getElementById("enviar");
+  const decir = (t, tipo) => { estado.textContent = t; estado.className = "estado " + (tipo || ""); };
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const email = document.getElementById("email").value.trim();
+    const sector = document.getElementById("sector").value;
+    const ok = document.getElementById("ok").checked;
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) return decir("Escribe un correo válido, por ejemplo nombre@gmail.com.", "err");
+    if (!sector) return decir("Elige qué negocio tienes para enviarte las ayudas que te tocan.", "err");
+    if (!ok) return decir("Marca la casilla para que podamos enviarte el aviso.", "err");
+    btn.disabled = true; decir("Apuntando…");
+    try {
+      const r = await fetch(SUPABASE_URL + "/functions/v1/avisat/alta", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, sector, consentimiento: true, texto_consentimiento: document.getElementById("texto-ok").textContent })
+      });
+      const j = await r.json().catch(() => ({}));
+      if (r.ok && j.estado === "ya_confirmado") { form.reset(); decir("Ya estabas apuntado. El lunes te llega el aviso.", "ok"); }
+      else if (r.ok) { form.reset(); decir("Casi listo: te hemos enviado un correo. Pulsa el botón de confirmar que encontrarás dentro.", "ok"); }
+      else if (r.status === 429) { decir("Muchas altas ahora mismo. Prueba de nuevo en unos minutos.", "err"); }
+      else { decir("No se ha podido apuntar. Revisa el correo y prueba de nuevo.", "err"); }
+    } catch { decir("Sin conexión. Revisa internet y prueba de nuevo.", "err"); }
+    finally { btn.disabled = false; }
+  });
+})();
+</script>
+</body>
+</html>
